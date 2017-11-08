@@ -38,6 +38,10 @@ public class JanelaDeJogo extends javax.swing.JFrame {
         return instance;
     }
 
+    public void pegouIp(String ip) {
+        ipParaConectar = ip;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -388,7 +392,6 @@ public class JanelaDeJogo extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JanelaDeJogo.getInstance().setVisible(true);
-                //new JanelaDeJogo().setVisible(true);
             }
         });
         ServidorTCP servidor = new ServidorTCP(JanelaDeJogo.getInstance());
