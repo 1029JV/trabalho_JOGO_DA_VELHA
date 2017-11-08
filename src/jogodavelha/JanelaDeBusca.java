@@ -18,26 +18,27 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JOptionPane;
-import jogodavelha.getIp;
+import jogodavelha.GetIP;
 
 /**
  *
  * @author João Vitor
  */
-public class janelaDeBusca extends javax.swing.JFrame {
+public class JanelaDeBusca extends javax.swing.JFrame {
 
     final static String INET_ADDR = "224.0.0.3";
     final static int PORT = 3737;
-    getIp pegandoIP = new getIp();
+    GetIP pegandoIP = new GetIP();
     String ipCapturado = pegandoIP.retornaIP();
     Timer timer = null;
 
-    private janelaDeJogo jogoDaVelha = new janelaDeJogo();
+    private JanelaDeJogo jogoDaVelha = JanelaDeJogo.getInstance();
+    //private JanelaDeJogo jogoDaVelha = new JanelaDeJogo();
 
     /**
      * Creates new form janelaDeBusca
      */
-    public janelaDeBusca() {
+    public JanelaDeBusca() {
         initComponents();
     }
 
@@ -99,27 +100,28 @@ public class janelaDeBusca extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(janelaDeBusca.class
+            java.util.logging.Logger.getLogger(JanelaDeBusca.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(janelaDeBusca.class
+            java.util.logging.Logger.getLogger(JanelaDeBusca.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(janelaDeBusca.class
+            java.util.logging.Logger.getLogger(JanelaDeBusca.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(janelaDeBusca.class
+            java.util.logging.Logger.getLogger(JanelaDeBusca.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new janelaDeBusca().setVisible(true);
+                new JanelaDeBusca().setVisible(true);
             }
         });
     }

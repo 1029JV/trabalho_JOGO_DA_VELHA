@@ -13,7 +13,7 @@ import java.util.Enumeration;
  *
  * @author lab05
  */
-public class getIp {
+public class GetIP {
 
     public static String retornaIP() {
         String ipAddress = null;

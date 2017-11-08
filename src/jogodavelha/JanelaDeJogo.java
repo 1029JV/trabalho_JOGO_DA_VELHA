@@ -19,15 +19,23 @@ import tcp.*;
  *
  * @author João Vitor
  */
-public class janelaDeJogo extends javax.swing.JFrame {
+public class JanelaDeJogo extends javax.swing.JFrame {
 
     Integer vez = 0;
-    ServidorTCP Servidor = new ServidorTCP();
-    ClienteTCP Cliente = new ClienteTCP();
-    String ipParaConectar = "192.168.0.105";
+    ClienteTCP cliente = new ClienteTCP();
+    String ipParaConectar;
 
-    public janelaDeJogo() {
+    private static JanelaDeJogo instance = null;
+
+    private JanelaDeJogo() {
         initComponents();
+    }
+
+    public static JanelaDeJogo getInstance() {
+        if (instance == null) {
+            instance = new JanelaDeJogo();
+        }
+        return instance;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -300,13 +308,13 @@ public class janelaDeJogo extends javax.swing.JFrame {
                     btnNove.setText("O");
                 }
                 break;
+            default:
+                System.out.println("nenhum");
         }
-        if (vez % 2 == 0) {
-            Cliente.enviar(ipParaConectar, i.toString());
-        } else {
-            Servidor.receber();
-        }
+        cliente.enviar(ipParaConectar, i.toString());
         vez += 1;
+        JanelaDeJogo.getInstance().setVisible(false);
+        JanelaDeJogo.getInstance().setVisible(true);
         partidaGanha();
     }
 
@@ -358,29 +366,34 @@ public class janelaDeJogo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(janelaDeJogo.class
+            java.util.logging.Logger.getLogger(JanelaDeJogo.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(janelaDeJogo.class
+            java.util.logging.Logger.getLogger(JanelaDeJogo.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(janelaDeJogo.class
+            java.util.logging.Logger.getLogger(JanelaDeJogo.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(janelaDeJogo.class
+            java.util.logging.Logger.getLogger(JanelaDeJogo.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new janelaDeJogo().setVisible(true);
+                JanelaDeJogo.getInstance().setVisible(true);
+                //new JanelaDeJogo().setVisible(true);
             }
         });
+        ServidorTCP servidor = new ServidorTCP(JanelaDeJogo.getInstance());
+        Thread t = new Thread(servidor);
+        t.run();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

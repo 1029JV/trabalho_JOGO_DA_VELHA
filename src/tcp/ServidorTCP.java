@@ -4,20 +4,26 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import jogodavelha.janelaDeJogo;
+import javax.swing.JFrame;
+import jogodavelha.JanelaDeJogo;
 
-public class ServidorTCP {
+public class ServidorTCP implements Runnable {
 
-    public void receber() {
+    private JanelaDeJogo janelaJogo;
+    String jogada;
+
+    public ServidorTCP(JanelaDeJogo janela) {
+        this.janelaJogo = janela;
+    }
+
+    public void run() {
         try {
-            janelaDeJogo desativandoBtn = new janelaDeJogo();
-            String jogada;
             ServerSocket welcomeSocket = new ServerSocket(3737);
-            while (welcomeSocket.accept() == null) {
+            while (true) {
                 Socket connectionSocket = welcomeSocket.accept();
                 BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 jogada = inFromClient.readLine();
-                desativandoBtn.desativaBtn(Integer.parseInt(jogada));
+                janelaJogo.desativaBtn(Integer.parseInt(jogada));
             }
         } catch (Exception e) {
             e.printStackTrace();
