@@ -13,7 +13,7 @@ public class ServidorTCP implements Runnable {
     String jogada;
 
     public ServidorTCP(JanelaDeJogo janela) {
-        this.janelaJogo = janela;
+        this.janelaJogo = janela.getInstance();
     }
 
     public void run() {

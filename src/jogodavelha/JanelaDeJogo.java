@@ -11,6 +11,8 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import tcp.*;
@@ -23,7 +25,8 @@ public class JanelaDeJogo extends javax.swing.JFrame {
 
     Integer vez = 0;
     ClienteTCP cliente = new ClienteTCP();
-    String ipParaConectar;
+    String ipParaConectar = "10.10.14.196";
+    List<Integer> verificaJogada = new ArrayList<>();
 
     private static JanelaDeJogo instance = null;
 
@@ -239,87 +242,91 @@ public class JanelaDeJogo extends javax.swing.JFrame {
     // </editor-fold>   
 
     public void desativaBtn(Integer i) {
-        switch (i) {
-            case 1:
-                btnUm.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnUm.setText("X");
-                } else {
-                    btnUm.setText("O");
-                }
-                break;
-            case 2:
-                btnDois.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnDois.setText("X");
-                } else {
-                    btnDois.setText("O");
-                }
-                break;
-            case 3:
-                btnTres.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnTres.setText("X");
-                } else {
-                    btnTres.setText("O");
-                }
-                break;
-            case 4:
-                btnQuatro.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnQuatro.setText("X");
-                } else {
-                    btnQuatro.setText("O");
-                }
-                break;
-            case 5:
-                btnCinco.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnCinco.setText("X");
-                } else {
-                    btnCinco.setText("O");
-                }
-                break;
-            case 6:
-                btnSeis.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnSeis.setText("X");
-                } else {
-                    btnSeis.setText("O");
-                }
-                break;
-            case 7:
-                btnSete.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnSete.setText("X");
-                } else {
-                    btnSete.setText("O");
-                }
-                break;
-            case 8:
-                btnOito.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnOito.setText("X");
-                } else {
-                    btnOito.setText("O");
-                }
-                break;
-            case 9:
-                btnNove.setEnabled(false);
-                if (vez % 2 == 0) {
-                    btnNove.setText("X");
-                } else {
-                    btnNove.setText("O");
-                }
-                break;
-            default:
-                System.out.println("nenhum");
+        System.out.println(i);
+        if (!(verificaJogada.contains(i))) {
+            verificaJogada.add(i);
+            vez += 1;
+            switch (i) {
+                case 1:
+                    btnUm.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnUm.setText("X");
+                    } else {
+                        btnUm.setText("O");
+                    }
+                    break;
+                case 2:
+                    btnDois.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnDois.setText("X");
+                    } else {
+                        btnDois.setText("O");
+                    }
+                    break;
+                case 3:
+                    btnTres.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnTres.setText("X");
+                    } else {
+                        btnTres.setText("O");
+                    }
+                    break;
+                case 4:
+                    btnQuatro.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnQuatro.setText("X");
+                    } else {
+                        btnQuatro.setText("O");
+                    }
+                    break;
+                case 5:
+                    btnCinco.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnCinco.setText("X");
+                    } else {
+                        btnCinco.setText("O");
+                    }
+                    break;
+                case 6:
+                    btnSeis.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnSeis.setText("X");
+                    } else {
+                        btnSeis.setText("O");
+                    }
+                    break;
+                case 7:
+                    btnSete.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnSete.setText("X");
+                    } else {
+                        btnSete.setText("O");
+                    }
+                    break;
+                case 8:
+                    btnOito.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnOito.setText("X");
+                    } else {
+                        btnOito.setText("O");
+                    }
+                    break;
+                case 9:
+                    btnNove.setEnabled(false);
+                    if (vez % 2 == 0) {
+                        btnNove.setText("X");
+                    } else {
+                        btnNove.setText("O");
+                    }
+                    break;
+                default:
+                    System.out.println("nenhum");
+            }
+            cliente.enviar(ipParaConectar, i.toString());
+            JanelaDeJogo.getInstance().setVisible(false);
+            JanelaDeJogo.getInstance().setVisible(true);
+            partidaGanha();
         }
-        cliente.enviar(ipParaConectar, i.toString());
-        vez += 1;
-        JanelaDeJogo.getInstance().setVisible(false);
-        JanelaDeJogo.getInstance().setVisible(true);
-        partidaGanha();
     }
 
     private void partidaGanha() {
@@ -348,9 +355,15 @@ public class JanelaDeJogo extends javax.swing.JFrame {
     private void ganhadorFoi() {
         if ((vez % 2) == 0) {
             JOptionPane.showMessageDialog(null, "Jogador X, ganhou a partida!");
+            ServidorTCP servidor = new ServidorTCP(JanelaDeJogo.getInstance());
+            Thread t = new Thread(servidor);
+            t.interrupt();
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Jogador O, ganhou a partida!");
+            ServidorTCP servidor = new ServidorTCP(JanelaDeJogo.getInstance());
+            Thread t = new Thread(servidor);
+            t.interrupt();
             this.dispose();
         }
     }
