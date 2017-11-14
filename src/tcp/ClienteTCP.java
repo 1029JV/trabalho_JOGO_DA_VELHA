@@ -11,6 +11,7 @@ public class ClienteTCP {
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             outToServer.writeBytes(jogada);
             clientSocket.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
