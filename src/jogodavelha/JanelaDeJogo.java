@@ -25,7 +25,7 @@ public class JanelaDeJogo extends javax.swing.JFrame {
 
     Integer vez = 0;
     ClienteTCP cliente = new ClienteTCP();
-    String ipParaConectar = "192.168.0.101";
+    String ipParaConectar = "192.168.0.108";
     List<Integer> verificaJogada = new ArrayList<>();
 
     private static JanelaDeJogo instance = null;
